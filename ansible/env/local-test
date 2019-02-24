@@ -1,0 +1,2 @@
+[httpd]
+localhost ansible_ssh_port=5000 ansible_ssh_user=user

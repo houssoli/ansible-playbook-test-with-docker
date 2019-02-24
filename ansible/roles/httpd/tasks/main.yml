@@ -1,0 +1,10 @@
+---
+- name: install httpd
+  yum: name=httpd state=installed
+
+- name: check httpd running and enabled
+  service: name=httpd state=running enabled=yes
+
+- name: check port 80 answering
+  wait_for: port=80
+

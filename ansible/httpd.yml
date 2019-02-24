@@ -1,0 +1,6 @@
+---
+- hosts: httpd
+  become: yes
+  become_user: root
+  roles:
+    - httpd
