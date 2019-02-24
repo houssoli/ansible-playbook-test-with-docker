@@ -22,22 +22,30 @@ With Docker, we can test any Ansible playbook against any version of any Linux d
 docker build -f docker/Dockerfile -t local/centos7-systemd ./docker
 ```
 
-## Run ansible-playbook against a container
+## Run ansible-playbook against a target Centos7 container
+
 Now we’re ready to start a container from the image we created and run ansible-playbook against it.
+
 For convenience we’ll put all the commands in a shell script, container-start-and-playbook-run.sh, that way it’s easy to chain everything together:
 
 ```
-DCKER_CONTAINER_NAME="ansible-role-test"
+DOCKER_CONTAINER_NAME="ansible-role-test"
 SSH_PUBLIC_KEY_FILE=ansible/ssh/id_rsa.pub
 SSH_PUBLIC_KEY=$(cat "$SSH_PUBLIC_KEY_FILE")
 ```
 
 ```
-docker run -ti --privileged --name $DOCKER_CONTAINER_NAME -d -p 5000:22 -e AUTHORIZED_KEYS="$SSH_PUBLIC_KEY" local/centos7-systemd
+docker run -ti --privileged --rm --name $DOCKER_CONTAINER_NAME -d -p 5000:22 -e AUTHORIZED_KEYS="$SSH_PUBLIC_KEY" -v "$(pwd)":/tmp --workdir="/tmp" local/centos7-systemd
 ```
 
 ```
 cd ansible && ansible-playbook -i env/local_docker site.yml --private-key ssh/id_rsa
+```
+
+### Go ahead to a terminal in the container to play around
+
+```
+$ docker exec -it ansible-role-test /bin/bash
 ```
 
 Note:
