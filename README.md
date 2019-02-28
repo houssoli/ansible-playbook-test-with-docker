@@ -51,3 +51,6 @@ $ docker exec -it ansible-role-test /bin/bash
 Note:
 
 The container needs to mount systemd cgroups on the host as a volume (Note that it can not run on distos using another init system or OSX).
+
+
+TODO : a Ubuntu Dockerfile sets up an SSHd service in container https://docs.docker.com/engine/examples/running_ssh_service/
