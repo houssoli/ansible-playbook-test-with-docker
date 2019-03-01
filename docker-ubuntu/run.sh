@@ -9,4 +9,4 @@ if [ "${AUTHORIZED_KEYS}" != "nil" ]; then
   chown -R user /home/user/.ssh
 fi
 
-exec @
+exec /sbin/init --log-target=journal 3>&1

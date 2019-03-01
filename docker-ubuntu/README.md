@@ -62,7 +62,7 @@ This image is useless as it's only meant to serve as a base for your own
 images, but you can still create a container from it. First set up your Docker
 host as described in Setup above. Then run the following command:
 
-    docker run -d --name ubuntu-systemd --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro -t local/ubuntu-systemd
+    docker run -d --name ubuntu-systemd -p 5001:22 --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro -t local/ubuntu-systemd
 
 Check the logs to see if `systemd` started correctly:
 

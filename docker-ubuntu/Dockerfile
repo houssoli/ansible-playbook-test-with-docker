@@ -16,7 +16,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN systemctl set-default multi-user.target
-#RUN systemctl enable sshd.service
 COPY ./nsenter/setup /sbin/
 COPY ./start.sh /start.sh
 COPY ./run.sh /run.sh
@@ -32,4 +31,5 @@ EXPOSE 22
 STOPSIGNAL SIGRTMIN+3
 
 # Workaround for docker/docker#27202, technique based on comments from docker/docker#9212
-CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
+#CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
+CMD ["/run.sh"]
