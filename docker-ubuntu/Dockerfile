@@ -10,16 +10,24 @@ RUN find /etc/systemd/system \
     -not -name '*systemd-tmpfiles*' \
     -not -name '*systemd-user-sessions*' \
     -exec rm \{} \;
-
 RUN apt-get update && \
     apt-get install -y \
-    dbus && \
+    dbus git curl openssh-server openssh-client passwd sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
 RUN systemctl set-default multi-user.target
-
-COPY nsenter/setup /sbin/
+#RUN systemctl enable sshd.service
+COPY ./nsenter/setup /sbin/
+COPY ./start.sh /start.sh
+COPY ./run.sh /run.sh
+RUN mkdir /var/run/sshd
+#RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+RUN chmod 755 /sbin/setup && chmod 755 /start.sh && chmod 755 /run.sh
+RUN ./start.sh
+VOLUME [ "/sys/fs/cgroup" ]
+ENV AUTHORIZED_KEYS nil
+EXPOSE 22
 
 STOPSIGNAL SIGRTMIN+3
 

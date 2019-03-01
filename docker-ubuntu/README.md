@@ -4,13 +4,9 @@ services.
 **This image is meant for development use only. We strongly recommend against
 running it in production!**
 
-## Supported tags
-
-* `18.04`, `bionic`
-
 ## But why?
 
-The short answer: use `local/ubuntu-18.04-systemd` for running applications that
+The short answer: use `local/ubuntu-systemd` for running applications that
 need to be run in a full Ubuntu system and not on their own as PID 1.
 
 The long answer: `local/ubuntu-systemd` might be a better choice than the
@@ -66,7 +62,7 @@ This image is useless as it's only meant to serve as a base for your own
 images, but you can still create a container from it. First set up your Docker
 host as described in Setup above. Then run the following command:
 
-    docker run -d --name systemd --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro -t local/ubuntu-systemd
+    docker run -d --name ubuntu-systemd --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro -t local/ubuntu-systemd
 
 Check the logs to see if `systemd` started correctly:
 
